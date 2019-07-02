@@ -14,7 +14,7 @@ struct Note: Codable {
     var mail: String
     var description: String
     var image: UIImage?
-    var date: Date
+    var date: String
     
     init(title: String,phoneNumber: String, mail: String, description: String, date: Date,
         image: UIImage? = nil) {
@@ -22,8 +22,13 @@ struct Note: Codable {
         self.phoneNumber = phoneNumber
         self.mail = mail
         self.description = description
-        self.date = date
         self.image = image
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM dd,yyyy  hh:mm:ss"
+        let date = formatter.string(from: date)
+        
+        self.date = date
     }
     
     init(from decoder: Decoder) throws {
@@ -33,7 +38,7 @@ struct Note: Codable {
         self.phoneNumber = try! container.decode(String.self, forKey: .phoneNumber)
         self.mail = try! container.decode(String.self, forKey: .mail)
         self.description = try! container.decode(String.self, forKey: .description)
-        self.date = try! container.decode(Date.self, forKey: .date)
+        self.date = try! container.decode(String.self, forKey: .date)
 
         if let imageData = try? container.decode(Data.self, forKey: .image) {
             if let image = UIImage(data: imageData) {

@@ -19,7 +19,6 @@ class MyFileManager {
     func readUserData() -> [User]? {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let archiveURL = documentsDirectory.appendingPathComponent("users.plist")
-        print(documentsDirectory)
         let pListDecoder = PropertyListDecoder()
         if let retrievedUserData = try? Data(contentsOf: archiveURL),
             let decodedUsers = try? pListDecoder.decode([User].self, from: retrievedUserData) {

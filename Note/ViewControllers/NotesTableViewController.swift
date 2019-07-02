@@ -56,22 +56,27 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
     }
     
     //editing style
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        user?.notes.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let editRowAction = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
+            print("sldnvd")
+        }
+        let deleteRowAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.user?.notes.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        editRowAction.backgroundColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
         
-        //MARK: delete note/update user notes /
-        //TODO: save user notes when app didEnterBackground in real device
-        fileManager.updateUserNotes(user: user!)
+        return [deleteRowAction, editRowAction]
     }
     
     //tableview: didSelectt
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else { return }
+        detailVC.note = user?.notes[indexPath.row]
+        let navigationVC = UINavigationController(rootViewController: detailVC)
+        self.present(navigationVC, animated: true, completion: nil)
     }
     
     @objc func addNavButton() {
@@ -87,9 +92,7 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
         user!.notes.append(note)
         tableView.reloadData()
         
-        //MARK: add note/ savae user notes /
-        //TODO: save user notes when app didEnterBackground in real device
-        fileManager.updateUserNotes(user: user!)
+        //MARK: add note
     }
     
     //NotesTableViewCellDelegate

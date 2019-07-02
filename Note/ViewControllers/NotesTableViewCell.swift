@@ -41,12 +41,7 @@ class NotesTableViewCell: UITableViewCell {
         self.mailLabel.text = note.mail
         self.descriptionLabel.text = note.description
         self.cellImageView?.image = note.image
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM dd,yyyy  hh:mm:ss"
-        let date = formatter.string(from: note.date)
-
-        dateLabel.text = date
+        self.dateLabel.text = note.date
         
     }
     
