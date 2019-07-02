@@ -78,7 +78,7 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
         let navigationVC = UINavigationController(rootViewController: detailVC)
         self.present(navigationVC, animated: true, completion: nil)
     }
-    
+        
     @objc func addNavButton() {
         guard let addNoteVC = storyboard?.instantiateViewController(withIdentifier: "AddNoteViewController") as? AddNoteTableViewController else { return }
         addNoteVC.delegate = self

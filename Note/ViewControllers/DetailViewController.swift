@@ -34,6 +34,12 @@ class DetailViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: 0).isActive = true
         }
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButton))
+        
+    }
+    
+    @objc func cancelButton() {
+        dismiss(animated: true, completion: nil)
     }
 
 }
