@@ -49,23 +49,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         guard !usernameTextField.text!.isEmpty && !passwordTextField.text!.isEmpty else { return }
 
         
-        if let users = fileManager.readUserData() {
-            let user = User(username: usernameTextField.text!, password: passwordTextField.text!, image: nil)
-            if users.contains(user) {
-                let index = users.lastIndex { (usser) -> Bool in
-                    return usser == user
-                }
-                if let index = index {
-                    guard let notesVC = self.storyboard?.instantiateViewController(withIdentifier: "NotesViewController") as? NotesTableViewController else { return }
-                    notesVC.user = users[index]
-                    let navVC = UINavigationController(rootViewController: notesVC)
-                    self.present(navVC, animated: true, completion: nil)
-                }
-            } else {
-                let alertController = UIAlertController(title: "Login failed", message: "Invalid username or password", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
+        let user = User(username: usernameTextField.text!, password: passwordTextField.text!, image: nil)
+        if let users = fileManager.readUserData(), users.contains(user) {
+            let index = users.lastIndex { (usser) -> Bool in
+                return usser == user
             }
+            if let index = index {
+                guard let notesVC = self.storyboard?.instantiateViewController(withIdentifier: "NotesViewController") as? NotesTableViewController else { return }
+                notesVC.user = users[index]
+                let navVC = UINavigationController(rootViewController: notesVC)
+                self.present(navVC, animated: true, completion: nil)
+            }
+        } else {
+            let alertController = UIAlertController(title: "Login failed", message: "Invalid username or password", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
         }
         
     }

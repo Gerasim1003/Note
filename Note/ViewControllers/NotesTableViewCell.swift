@@ -14,6 +14,7 @@ protocol NotesTableViewCellDelegate: class {
 }
 
 class NotesTableViewCell: UITableViewCell {
+    @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var noteTitleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var phoneNumberLabel: UILabel!
@@ -29,7 +30,11 @@ class NotesTableViewCell: UITableViewCell {
         //Targerts
         phoneNumberLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(phoneNumbertapped)))
         mailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(mailLabeltapped)))
+        
+        //shadow
+        cellView.setShadow()
     }
+    
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)        
@@ -54,4 +59,15 @@ class NotesTableViewCell: UITableViewCell {
         delegate?.sendMail(mail: mailLabel.text!)
     }
 
+}
+
+//MARK: UIView extention / setShadow()
+extension UIView {
+    func setShadow() {
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 1.5
+    }
 }

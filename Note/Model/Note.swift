@@ -25,7 +25,7 @@ struct Note: Codable {
         self.image = image
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM dd,yyyy  hh:mm:ss"
+        formatter.dateFormat = "MMMM dd, yyyy  hh:mm:ss"
         let date = formatter.string(from: date)
         
         self.date = date

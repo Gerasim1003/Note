@@ -169,7 +169,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qQ4-fl-hKK">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qQ4-fl-hKK">
                                                     <rect key="frame" x="10" y="155" width="374" height="78.5"/>
                                                     <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.47926476883561642" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -265,6 +265,7 @@
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="cellImageView" destination="Scp-vi-9rh" id="tUP-gU-82V"/>
+                                    <outlet property="cellView" destination="8Ev-iG-E5l" id="vGs-E7-kne"/>
                                     <outlet property="dateLabel" destination="Acz-3n-V0U" id="Xr9-fc-KbR"/>
                                     <outlet property="descriptionLabel" destination="qQ4-fl-hKK" id="tqu-ds-6k3"/>
                                     <outlet property="mailLabel" destination="kzj-SA-qRN" id="HXg-d8-37f"/>
@@ -364,10 +365,15 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYn-Wd-eSg">
-                                        <rect key="frame" x="10" y="457.5" width="374" height="330.5"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="10" y="462.5" width="374" height="325.5"/>
+                                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.47926476880000002" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -375,7 +381,7 @@
                                     <constraint firstItem="3jU-TS-yZ2" firstAttribute="top" secondItem="Dcs-aW-itd" secondAttribute="bottom" constant="5" id="2AC-01-EIr"/>
                                     <constraint firstItem="Trh-Su-AFj" firstAttribute="top" secondItem="Qp6-Dh-mdZ" secondAttribute="bottom" constant="10" id="4Ov-gj-bJm"/>
                                     <constraint firstItem="Trh-Su-AFj" firstAttribute="leading" secondItem="V8p-mx-fvl" secondAttribute="leading" id="5bf-MT-1av"/>
-                                    <constraint firstItem="WYn-Wd-eSg" firstAttribute="top" secondItem="Trh-Su-AFj" secondAttribute="bottom" id="7LR-EE-MmT"/>
+                                    <constraint firstItem="WYn-Wd-eSg" firstAttribute="top" secondItem="Trh-Su-AFj" secondAttribute="bottom" constant="5" id="7LR-EE-MmT"/>
                                     <constraint firstItem="Dcs-aW-itd" firstAttribute="leading" secondItem="V8p-mx-fvl" secondAttribute="leading" id="7aZ-0r-Aze"/>
                                     <constraint firstItem="aKR-1l-wLS" firstAttribute="leading" secondItem="V8p-mx-fvl" secondAttribute="leading" id="BGD-yg-OZW"/>
                                     <constraint firstAttribute="trailing" secondItem="V8p-mx-fvl" secondAttribute="trailing" constant="10" id="DTV-GY-Uba"/>
@@ -414,7 +420,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XfQ-aY-K7O" firstAttribute="leading" secondItem="Bpx-AL-tXV" secondAttribute="leading" constant="10" id="6Qq-BN-Dsl"/>
                             <constraint firstItem="Bpx-AL-tXV" firstAttribute="bottom" secondItem="XfQ-aY-K7O" secondAttribute="bottom" constant="10" id="965-pJ-v0R"/>
@@ -426,6 +432,7 @@
                     <connections>
                         <outlet property="dateLabel" destination="Qp6-Dh-mdZ" id="2mL-V4-ygF"/>
                         <outlet property="descriptionTextView" destination="WYn-Wd-eSg" id="rm4-fH-EZP"/>
+                        <outlet property="detailView" destination="XfQ-aY-K7O" id="hr9-fx-CK5"/>
                         <outlet property="imageView" destination="V8p-mx-fvl" id="rCN-dr-fNn"/>
                         <outlet property="mailLabel" destination="3jU-TS-yZ2" id="zC6-Am-PnC"/>
                         <outlet property="nameLabel" destination="PIa-OJ-DaA" id="DJ1-h0-hSn"/>
