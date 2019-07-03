@@ -17,6 +17,7 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
     let fileManager = MyFileManager()
     
     var user: User?
+    var indexPathOfEditedRow: IndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,10 +56,17 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
         return cell
     }
     
-    //editing style
+    //MARK: editing style
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editRowAction = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
-            print("sldnvd")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let VC = storyboard.instantiateViewController(withIdentifier: "AddNoteViewController") as? AddNoteTableViewController else { return }
+            VC.editMode = true
+            VC.note = self.user?.notes[indexPath.row]
+            VC.delegate = self
+            self.indexPathOfEditedRow = indexPath
+            let navigationController = UINavigationController(rootViewController: VC)
+            self.present(navigationController, animated: true, completion: nil)
         }
         let deleteRowAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             self.user?.notes.remove(at: indexPath.row)
@@ -94,6 +102,16 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
         
         //MARK: add note
     }
+
+    func updateNote(note: Note) {
+        if let indexPathOfEditedRow = indexPathOfEditedRow {
+            user?.notes[indexPathOfEditedRow.row] = note
+            tableView.reloadRows(at: [indexPathOfEditedRow], with: .none)
+        }
+        
+        //MARK: update note
+    }
+    
     
     //NotesTableViewCellDelegate
     func callAlert(phoneNumber: String) {

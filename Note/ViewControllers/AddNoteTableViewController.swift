@@ -10,6 +10,7 @@ import UIKit
 
 protocol AddNoteTableViewControllerDelegate: class {
     func saveNote(note: Note)
+    func updateNote(note: Note)
 }
 
 class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -19,6 +20,9 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
     @IBOutlet weak var descriptionLabel: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var datePicker: UIDatePicker!
+    
+    var editMode: Bool = false
+    var note: Note?
     
     weak var delegate: AddNoteTableViewControllerDelegate?
     
@@ -33,6 +37,19 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
         
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(chooseImageTapped)))
         
+        if self.note != nil {
+            titleLable.text = note?.title
+            phoneNumberLabel.text = note?.phoneNumber
+            mailLabel.text = note?.mail
+            descriptionLabel.text = note?.description
+            imageView.image = note?.image
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMMM dd,yyyy  hh:mm:ss"
+            guard let date = formatter.date(from: note!.date) else { return }
+            datePicker.setDate(date, animated: false)
+            
+        }
     }
     
     
@@ -47,9 +64,13 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
             !mailLabel.text!.isEmpty
             else { return }
         
-        let note = Note(title: titleLable.text!, phoneNumber: phoneNumberLabel.text!, mail: mailLabel.text!, description: descriptionLabel.text!, date: datePicker.date, image: imageView.image)
-        delegate?.saveNote(note: note)
+        self.note = Note(title: titleLable.text!, phoneNumber: phoneNumberLabel.text!, mail: mailLabel.text!, description: descriptionLabel.text!, date: datePicker.date, image: imageView.image)
         
+        if editMode {
+            delegate?.updateNote(note: note!)
+        } else {
+            delegate?.saveNote(note: note!)
+        }
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
