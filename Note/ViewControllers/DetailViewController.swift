@@ -19,7 +19,12 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     
     var note: Note!
-
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var imageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionTextViewHeightConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         nameLabel.text = note.title
@@ -40,6 +45,38 @@ class DetailViewController: UIViewController {
         //setShadow
         detailView.setShadow()
         
+        let imageViewWidth = self.view.frame.width - 40
+        let imageViewHeight = imageViewWidth / 2
+        imageViewWidthConstraint.constant = imageViewWidth
+        imageViewHeightConstraint.constant = imageViewHeight
+        
+        if UIDevice.current.orientation.isPortrait {
+            let window = UIApplication.shared.keyWindow
+            let topPadding = window?.safeAreaInsets.top
+            let bottomPadding = window?.safeAreaInsets.bottom
+            
+            let viewHeight = self.view.frame.height
+            let statusBarHeight = UIApplication.shared.statusBarFrame.height
+            
+            var descriptionViewHeight = viewHeight - imageViewHeight - statusBarHeight - 293
+            descriptionViewHeight -= topPadding ?? 0
+            descriptionViewHeight -= bottomPadding ?? 0
+            if let navBarHeight = self.navigationController?.navigationBar.frame.height {
+                descriptionViewHeight -= navBarHeight
+            }
+            
+            self.descriptionTextViewHeightConstraint.constant = descriptionViewHeight
+            descriptionTextView.layoutIfNeeded()
+        }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        let imageViewWidth = size.width - 40
+        let imageViewHeight = imageViewWidth / 2
+        self.imageViewWidthConstraint.constant = imageViewWidth
+        self.imageViewHeightConstraint.constant = imageViewHeight
+        imageView.layoutIfNeeded()
+
     }
     
     @objc func cancelButton() {
