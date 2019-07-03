@@ -56,9 +56,8 @@ class DetailViewController: UIViewController {
             let bottomPadding = window?.safeAreaInsets.bottom
             
             let viewHeight = self.view.frame.height
-            let statusBarHeight = UIApplication.shared.statusBarFrame.height
             
-            var descriptionViewHeight = viewHeight - imageViewHeight - statusBarHeight - 293
+            var descriptionViewHeight = viewHeight - imageViewHeight - 293
             descriptionViewHeight -= topPadding ?? 0
             descriptionViewHeight -= bottomPadding ?? 0
             if let navBarHeight = self.navigationController?.navigationBar.frame.height {
