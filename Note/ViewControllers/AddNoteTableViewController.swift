@@ -13,7 +13,7 @@ protocol AddNoteTableViewControllerDelegate: class {
     func updateNote(note: Note)
 }
 
-class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     @IBOutlet weak var titleLable: UITextField!
     @IBOutlet weak var phoneNumberLabel: UITextField!
     @IBOutlet weak var mailLabel: UITextField!
@@ -29,6 +29,7 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         titleLable.delegate = self
+        descriptionLabel.delegate = self
         phoneNumberLabel.delegate = self
         mailLabel.delegate = self
         
@@ -89,6 +90,17 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
         return false
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        var newText = textView.text!
+        newText.removeAll { (character) -> Bool in
+            return character == " " || character == "\n"
+        }
+        
+        return (newText.count + text.count) <= 40
+    }
+    
+    
+    //MARK: choose image
     @objc func chooseImageTapped() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
