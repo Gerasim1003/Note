@@ -65,6 +65,9 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
             !mailLabel.text!.isEmpty
             else { return }
         
+        guard checkValidity(of: mailLabel.text!, pattern: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}") else { return }
+        guard checkValidity(of: phoneNumberLabel.text!, pattern: "^[0][0-9]{8}$") else { return }
+        
         self.note = Note(title: titleLable.text!, phoneNumber: phoneNumberLabel.text!, mail: mailLabel.text!, description: descriptionLabel.text!, date: datePicker.date, image: imageView.image)
         
         if editMode {
@@ -96,9 +99,36 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
             return character == " " || character == "\n"
         }
         
-        return (newText.count + text.count) <= 40
+        if (newText.count + text.count) <= 40 {
+            textView.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            return true
+        } else {
+            textView.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            return false
+        }
+//        return (newText.count + text.count) <= 40
     }
     
+    func checkValidity(of text: String, pattern: String) -> Bool {
+        let regEx = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+        return ((regEx?.firstMatch(in: text, options: [], range: NSRange(location: 0, length: text.count))) != nil)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.validContent()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard textField == mailLabel || textField == phoneNumberLabel else { return }
+        
+        let patterns: [String] = ["^[0][0-9]{8}$", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"]
+        if checkValidity(of: textField.text!, pattern: patterns[textField.tag]) {
+            textField.validContent()
+        } else {
+            textField.invalidContent()
+        }
+            
+    }
     
     //MARK: choose image
     @objc func chooseImageTapped() {
@@ -135,4 +165,18 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
         }
     }
     
+}
+
+extension UITextField {
+    func invalidContent() {
+        self.layer.borderColor = UIColor.red.cgColor
+        self.layer.borderWidth = 0.5
+        self.layer.cornerRadius = 5
+        self.backgroundColor = #colorLiteral(red: 0.9764636159, green: 0.9303435683, blue: 0.9364798665, alpha: 1)
+    }
+    
+    func validContent() {
+        self.layer.borderWidth = 0
+        self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    }
 }
