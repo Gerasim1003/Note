@@ -9,7 +9,10 @@
 import UIKit
 import MessageUI
 
-class NotesTableViewController: UITableViewController, AddNoteTableViewControllerDelegate {
+class NotesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddNoteTableViewControllerDelegate {
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -21,6 +24,11 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(saveUserData), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
@@ -40,15 +48,29 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
     override func viewDidLayoutSubviews() {
         imageView.layer.cornerRadius = imageView.frame.width / 2
     }
+    
+    //MARK: SegmentControl
+    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            tableView.isHidden = false
+        case 1:
+            tableView.isHidden = true
+        default:
+            break
+        }
+        
+        collectionView.isHidden = !tableView.isHidden
+    }
 
     // MARK: - Table view data source
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.user?.notes.count ?? 0
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotesCell", for: indexPath) as? NotesTableViewCell else { return UITableViewCell()}
         cell.setup(with: self.user!.notes[indexPath.row])
         cell.delegate = self
@@ -57,7 +79,7 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
     }
     
     //MARK: editing style
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editRowAction = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let VC = storyboard.instantiateViewController(withIdentifier: "AddNoteViewController") as? AddNoteTableViewController else { return }
@@ -78,8 +100,11 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
     }
     
     //tableview: didSelectt
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        didSelectCell(at: indexPath)
+    }
+    
+    func didSelectCell(at indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else { return }
         detailVC.note = user?.notes[indexPath.row]
@@ -99,7 +124,7 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
     func saveNote(note: Note) {
         user!.notes.append(note)
         tableView.reloadData()
-        
+        collectionView.reloadData()
         //MARK: add note
     }
 
@@ -107,6 +132,7 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
         if let indexPathOfEditedRow = indexPathOfEditedRow {
             user?.notes[indexPathOfEditedRow.row] = note
             tableView.reloadRows(at: [indexPathOfEditedRow], with: .none)
+//            collectionView.reloadItems(at: [indexPathOfEditedRow])
         }
         
         //MARK: update note
@@ -115,11 +141,10 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
     @objc func saveUserData() {
         fileManager.updateUserNotes(user: self.user!)
     }
-
+    
 }
 
 //MARK: extension NotesTableViewController: NotesTableViewCellDelegate
-
 extension NotesTableViewController: NotesTableViewCellDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
     
     //NotesTableViewCellDelegate
@@ -173,4 +198,24 @@ extension NotesTableViewController: NotesTableViewCellDelegate, MFMessageCompose
         
         present(alertVC, animated: true, completion: nil)
     }
+}
+
+extension NotesTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return user?.notes.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotesCollecionViewCell", for: indexPath) as? NotesCollecionViewCell else { return UICollectionViewCell()}
+        cell.setup(with: self.user!.notes[indexPath.row])
+        cell.delegate = self
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        didSelectCell(at: indexPath)
+    }
+    
 }

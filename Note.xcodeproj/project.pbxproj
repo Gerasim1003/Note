@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05058B8722D3CC4200A83149 /* NotesCollecionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05058B8622D3CC4200A83149 /* NotesCollecionViewCell.swift */; };
 		050619B922C21C7C00E2D0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 050619B722C21C7C00E2D0C2 /* Main.storyboard */; };
 		050619BB22C21C7E00E2D0C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 050619BA22C21C7E00E2D0C2 /* Assets.xcassets */; };
 		050619BE22C21C7E00E2D0C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 050619BC22C21C7E00E2D0C2 /* LaunchScreen.storyboard */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05058B8622D3CC4200A83149 /* NotesCollecionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCollecionViewCell.swift; sourceTree = "<group>"; };
 		050619B022C21C7C00E2D0C2 /* Note.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Note.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		050619B822C21C7C00E2D0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		050619BA22C21C7E00E2D0C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				050619C922C2297D00E2D0C2 /* SignUpViewController.swift */,
 				050619CF22C3474300E2D0C2 /* NotesTableViewController.swift */,
 				050619D322C3570B00E2D0C2 /* NotesTableViewCell.swift */,
+				05058B8622D3CC4200A83149 /* NotesCollecionViewCell.swift */,
 				050619D522C37A3B00E2D0C2 /* AddNoteTableViewController.swift */,
 				05EA31D822CB861600B90FB7 /* DetailViewController.swift */,
 			);
@@ -182,6 +185,7 @@
 				050619C822C21ECD00E2D0C2 /* LoginViewController.swift in Sources */,
 				05C0138522CA940800CFCC50 /* AppDelegate.swift in Sources */,
 				050619D622C37A3B00E2D0C2 /* AddNoteTableViewController.swift in Sources */,
+				05058B8722D3CC4200A83149 /* NotesCollecionViewCell.swift in Sources */,
 				05EA31D922CB861600B90FB7 /* DetailViewController.swift in Sources */,
 				050619D022C3474300E2D0C2 /* NotesTableViewController.swift in Sources */,
 				050619D422C3570B00E2D0C2 /* NotesTableViewCell.swift in Sources */,
