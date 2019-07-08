@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class NotesTableViewController: UITableViewController, AddNoteTableViewControllerDelegate, NotesTableViewCellDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
+class NotesTableViewController: UITableViewController, AddNoteTableViewControllerDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -112,6 +112,15 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
         //MARK: update note
     }
     
+    @objc func saveUserData() {
+        fileManager.updateUserNotes(user: self.user!)
+    }
+
+}
+
+//MARK: extension NotesTableViewController: NotesTableViewCellDelegate
+
+extension NotesTableViewController: NotesTableViewCellDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
     
     //NotesTableViewCellDelegate
     func callAlert(phoneNumber: String) {
@@ -164,9 +173,4 @@ class NotesTableViewController: UITableViewController, AddNoteTableViewControlle
         
         present(alertVC, animated: true, completion: nil)
     }
-    
-    @objc func saveUserData() {
-        fileManager.updateUserNotes(user: self.user!)
-    }
-
 }
