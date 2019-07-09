@@ -37,6 +37,7 @@ class NotesTableViewController: UIViewController, UITableViewDelegate, UITableVi
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 86.0
+        
 
         if let user = user {
             self.imageView.image = user.image ?? UIImage(named: "note")
@@ -200,7 +201,8 @@ extension NotesTableViewController: NotesTableViewCellDelegate, MFMessageCompose
     }
 }
 
-extension NotesTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+//MARK: CollectionView
+extension NotesTableViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return user?.notes.count ?? 0
@@ -218,4 +220,26 @@ extension NotesTableViewController: UICollectionViewDelegate, UICollectionViewDa
         didSelectCell(at: indexPath)
     }
     
+    // MARK: - Collection View Flow Layout Delegate
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.frame.width * 2) / 3
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NotesCollecionViewCell", for: indexPath) as? NotesCollecionViewCell else {
+            return CGSize(width: width, height: width)
+        }
+        
+        var imageHeight = cell.collectioViewCellImageHeightConstraint.constant
+        
+        if user?.notes[indexPath.row].image == nil {
+            imageHeight = 0
+        }
+        
+        let height = imageHeight
+            + cell.noteTitleLabel.frame.height
+            + cell.descriptionLabel.frame.height
+            + 15
+        
+        return CGSize(width: width, height: height)
+    }
+    
 }
+

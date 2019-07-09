@@ -13,6 +13,8 @@ class NotesCollecionViewCell: UICollectionViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var cellImageView: UIImageView?
     
+    @IBOutlet weak var collectioViewCellImageHeightConstraint: NSLayoutConstraint!
+    
     weak var delegate: NotesTableViewCellDelegate?
     
     override func awakeFromNib() {
@@ -30,7 +32,12 @@ class NotesCollecionViewCell: UICollectionViewCell {
     func setup(with note: Note) {
         self.noteTitleLabel.text = note.title
         self.descriptionLabel.text = note.description
-        self.cellImageView?.image = note.image
+        
+        if let image = note.image {
+            self.cellImageView?.image = image
+        } else {
+            collectioViewCellImageHeightConstraint.constant = 0
+        }
         
     }
     

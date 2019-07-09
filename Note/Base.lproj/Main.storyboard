@@ -378,7 +378,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7sD-Z1-4db">
                                 <rect key="frame" x="0.0" y="179" width="414" height="683"/>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2xF-4F-hL6">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2xF-4F-hL6" customClass="NotesCollectionViewFlowLayout" customModule="Note" customModuleProvider="target">
                                     <size key="itemSize" width="288" height="225"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -395,7 +395,7 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Psp-Uc-UEk">
                                                     <rect key="frame" x="0.0" y="0.0" width="288" height="171"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="171" id="lmg-Jb-zFm"/>
+                                                        <constraint firstAttribute="height" priority="999" constant="171" id="lmg-Jb-zFm"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -404,13 +404,14 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TcP-ih-uGa">
-                                                    <rect key="frame" x="5" y="176" width="43" height="21"/>
+                                                    <rect key="frame" x="5" y="176" width="278" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="laz-BB-Nz5">
                                                     <rect key="frame" x="5" y="202" width="278" height="18"/>
+                                                    <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -419,7 +420,7 @@
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="TcP-ih-uGa" secondAttribute="trailing" constant="240" id="NrY-4D-ZK6"/>
+                                            <constraint firstAttribute="trailing" secondItem="TcP-ih-uGa" secondAttribute="trailing" constant="5" id="NrY-4D-ZK6"/>
                                             <constraint firstItem="Psp-Uc-UEk" firstAttribute="top" secondItem="B62-ez-5wy" secondAttribute="top" id="Ola-qe-mAh"/>
                                             <constraint firstItem="laz-BB-Nz5" firstAttribute="top" secondItem="TcP-ih-uGa" secondAttribute="bottom" constant="5" id="Vzk-DP-B1J"/>
                                             <constraint firstItem="Psp-Uc-UEk" firstAttribute="leading" secondItem="B62-ez-5wy" secondAttribute="leading" id="Woj-fC-W7E"/>
@@ -436,6 +437,7 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="cellImageView" destination="Psp-Uc-UEk" id="tPa-lT-dly"/>
+                                            <outlet property="collectioViewCellImageHeightConstraint" destination="lmg-Jb-zFm" id="QJN-YI-jBo"/>
                                             <outlet property="descriptionLabel" destination="laz-BB-Nz5" id="kFl-8l-b8d"/>
                                             <outlet property="noteTitleLabel" destination="TcP-ih-uGa" id="7mF-N1-IY3"/>
                                         </connections>
