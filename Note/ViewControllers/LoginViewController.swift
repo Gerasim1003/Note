@@ -24,6 +24,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         //targets
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+    
         
     }
     

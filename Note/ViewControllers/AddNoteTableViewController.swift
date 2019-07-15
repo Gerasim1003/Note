@@ -18,6 +18,7 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
     @IBOutlet weak var phoneNumberLabel: UITextField!
     @IBOutlet weak var mailLabel: UITextField!
     @IBOutlet weak var descriptionLabel: UITextView!
+    @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var datePicker: UIDatePicker!
     
@@ -94,6 +95,7 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
         var newText = textView.text!
         newText.removeAll { (character) -> Bool in
             return character == " " || character == "\n"
@@ -101,11 +103,14 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
         
         if (newText.count + text.count) <= 40 {
             textView.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            print(newText.count + text.count - range.length)
+            self.counterLabel.text = String(newText.count + text.count - range.length)
             return true
         } else {
             textView.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
             return false
         }
+        
 //        return (newText.count + text.count) <= 40
     }
     
