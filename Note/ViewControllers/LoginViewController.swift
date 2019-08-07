@@ -17,7 +17,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
-    let fileManager = MyFileManager()
+//    let fileManager = MyFileManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()

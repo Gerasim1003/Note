@@ -20,7 +20,7 @@ class NotesTableViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     
-    let fileManager = MyFileManager()
+//    let fileManager = MyFileManager()
     
     var user: User?
     var indexPathOfEditedRow: IndexPath?
@@ -28,7 +28,7 @@ class NotesTableViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ref = Database.database().reference()
+        ref = Database.database().reference(withPath: "notes-526a6")
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -159,7 +159,7 @@ class NotesTableViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @objc func saveUserData() {
-        fileManager.updateUserNotes(user: self.user!)
+//        fileManager.updateUserNotes(user: self.user!)
     }
     
 }

@@ -15,7 +15,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     
-    let fileManager = MyFileManager()
+//    let fileManager = MyFileManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,31 +66,31 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         passwordTextField.updateBorderColor()
         guard !usernameTextField.text!.isEmpty && !passwordTextField.text!.isEmpty else { return }
         
-        var users = fileManager.readUserData() ?? []
+//        var users = fileManager.readUserData() ?? []
         let newUser = User(username: usernameTextField.text!, password: passwordTextField.text!, image: imageView.image)
 
-        if users.contains(newUser) {
-
-            let alertController = UIAlertController(title: "User has already registered", message: nil, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
-
-        } else {
-
-            users.append(newUser)
-            fileManager.writeUserData(users)
-
-            let alertController = UIAlertController(title: "Registration completed successfully", message: nil, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-                self.usernameTextField.text!.removeAll()
-                self.passwordTextField.text!.removeAll()
-                self.imageView.image = nil
-                self.tabBarController?.selectedIndex = 0
-            }))
-            self.present(alertController, animated: true, completion: nil)
-
-        }
-        
+//        if users.contains(newUser) {
+//
+//            let alertController = UIAlertController(title: "User has already registered", message: nil, preferredStyle: .alert)
+//            alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+//            self.present(alertController, animated: true, completion: nil)
+//
+//        } else {
+//
+//            users.append(newUser)
+//            fileManager.writeUserData(users)
+//
+//            let alertController = UIAlertController(title: "Registration completed successfully", message: nil, preferredStyle: .alert)
+//            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+//                self.usernameTextField.text!.removeAll()
+//                self.passwordTextField.text!.removeAll()
+//                self.imageView.image = nil
+//                self.tabBarController?.selectedIndex = 0
+//            }))
+//            self.present(alertController, animated: true, completion: nil)
+//
+//        }
+//        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
