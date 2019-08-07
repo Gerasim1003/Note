@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol AddNoteTableViewControllerDelegate: class {
     func saveNote(note: Note)
@@ -103,7 +104,6 @@ class AddNoteTableViewController: UITableViewController, UITextFieldDelegate, UI
         
         if (newText.count + text.count) <= 40 {
             textView.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            print(newText.count + text.count - range.length)
             self.counterLabel.text = String(newText.count + text.count - range.length)
             return true
         } else {

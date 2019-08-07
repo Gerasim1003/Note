@@ -9,6 +9,7 @@
 import UIKit
 
 struct Note: Codable {
+    var id: String?
     var title: String
     var phoneNumber: String
     var mail: String
@@ -16,8 +17,12 @@ struct Note: Codable {
     var image: UIImage?
     var date: String
     
-    init(title: String,phoneNumber: String, mail: String, description: String, date: Date,
+    init(id: String? = nil, title: String, phoneNumber: String, mail: String, description: String, date: Date,
         image: UIImage? = nil) {
+        self.id = id
+        if self.id == nil {
+            self.id = "\(Date.timeIntervalSinceReferenceDate)".components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
+        }
         self.title = title
         self.phoneNumber = phoneNumber
         self.mail = mail
@@ -31,9 +36,18 @@ struct Note: Codable {
         self.date = date
     }
     
+    func toAny() -> Any {
+        return ["title": title,
+                "description": description,
+                "phoneNumber": phoneNumber,
+                "mail": mail,
+                "date": date]
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
+        self.id = try! container.decode(String.self, forKey: .id)
         self.title = try! container.decode(String.self, forKey: .title)
         self.phoneNumber = try! container.decode(String.self, forKey: .phoneNumber)
         self.mail = try! container.decode(String.self, forKey: .mail)
@@ -51,6 +65,7 @@ struct Note: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
+        try container.encode(id, forKey: .id)
         try container.encode(title, forKey: .title)
         try container.encode(phoneNumber, forKey: .phoneNumber)
         try container.encode(mail, forKey: .mail)
@@ -63,6 +78,7 @@ struct Note: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
+        case id
         case title
         case phoneNumber
         case mail

@@ -9,13 +9,13 @@
 import UIKit
 
 class MyFileManager {
-    
+
     enum Component: String {
         case Users = "users.plist"
         case Notes = "notes.plist"
     }
-    
-    //User
+
+//    User
     func readUserData() -> [User]? {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let archiveURL = documentsDirectory.appendingPathComponent("users.plist")
@@ -26,7 +26,7 @@ class MyFileManager {
         }
         return nil
     }
-    
+
     func writeUserData(_ data: [User]) {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let archiveURL = documentsDirectory.appendingPathComponent("users.plist")
@@ -34,18 +34,18 @@ class MyFileManager {
         let encodedUsers = try? pListEncoder.encode(data)
         try? encodedUsers?.write(to: archiveURL)
     }
-    
+
     func updateUserNotes(user: User) {
         var users = readUserData()
         guard users != nil else {return}
-        
+
         if let index = users?.lastIndex(where: { (usr) -> Bool in
             usr == user
         }) {
 //            users![index].notes.append(note)
             users![index].notes = user.notes
         }
-        
+
         writeUserData(users!)
     }
 }

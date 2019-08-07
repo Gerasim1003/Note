@@ -8,8 +8,11 @@
 
 import UIKit
 import MessageUI
+import Firebase
 
 class NotesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddNoteTableViewControllerDelegate {
+    
+    var ref: DatabaseReference!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -24,6 +27,8 @@ class NotesTableViewController: UIViewController, UITableViewDelegate, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -92,6 +97,7 @@ class NotesTableViewController: UIViewController, UITableViewDelegate, UITableVi
             self.present(navigationController, animated: true, completion: nil)
         }
         let deleteRowAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.ref.child((self.user?.notes[indexPath.row].id)!).removeValue()
             self.user?.notes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
@@ -126,13 +132,26 @@ class NotesTableViewController: UIViewController, UITableViewDelegate, UITableVi
         user!.notes.append(note)
         tableView.reloadData()
         collectionView.reloadData()
+        
+        let childRef = ref.child(note.id!)
+        childRef.setValue(note.toAny())
+        
         //MARK: add note
     }
 
     func updateNote(note: Note) {
         if let indexPathOfEditedRow = indexPathOfEditedRow {
-            user?.notes[indexPathOfEditedRow.row] = note
+            var nt = note
+            let id = user?.notes[indexPathOfEditedRow.row].id
+            nt.id = id
+            user?.notes[indexPathOfEditedRow.row] = nt
             tableView.reloadRows(at: [indexPathOfEditedRow], with: .none)
+            
+            ref.child(nt.id!).updateChildValues(["date": note.date,
+                "description": note.description,
+                "mail": note.mail,
+                "phoneNumber": note.phoneNumber,
+                "title": note.title])
 //            collectionView.reloadItems(at: [indexPathOfEditedRow])
         }
         

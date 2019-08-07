@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
+    
+    var ref: DatabaseReference!
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -18,6 +21,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference(withPath: "notes-526a6")
 
         usernameTextField.delegate = self
         passwordTextField.delegate = self
@@ -49,23 +54,53 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.updateBorderColor()
         guard !usernameTextField.text!.isEmpty && !passwordTextField.text!.isEmpty else { return }
 
-        
-        let user = User(username: usernameTextField.text!, password: passwordTextField.text!, image: nil)
-        if let users = fileManager.readUserData(), users.contains(user) {
-            let index = users.lastIndex { (usser) -> Bool in
-                return usser == user
+        var notes = [Note]()
+        ref!.observe(.value) { (snapshot) in
+            for data in snapshot.children.allObjects as! [DataSnapshot]{
+                let note = data.value as! [String: Any]
+                print(note)
+                let title = (note["title"] ?? "") as! String
+                let description = (note["description"] ?? "") as! String
+                let date = (note["date"] ?? "") as! String
+                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MMMM dd,yyyy  hh:mm:ss"
+                let dt = formatter.date(from: date)
+                
+                let mail = (note["mail"] ?? "") as! String
+                let phoneNumber = (note["phoneNumber"] ?? "") as! String
+                
+                let id = data.key
+                
+                let nt = Note(id: id, title: title, phoneNumber: phoneNumber, mail: mail, description: description, date: dt!)
+                
+                notes.append(nt)
             }
-            if let index = index {
-                guard let notesVC = self.storyboard?.instantiateViewController(withIdentifier: "NotesViewController") as? NotesTableViewController else { return }
-                notesVC.user = users[index]
-                let navVC = UINavigationController(rootViewController: notesVC)
-                self.present(navVC, animated: true, completion: nil)
-            }
-        } else {
-            let alertController = UIAlertController(title: "Login failed", message: "Invalid username or password", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
+            
+            guard let notesVC = self.storyboard?.instantiateViewController(withIdentifier: "NotesViewController") as? NotesTableViewController else { return }
+            var user = User(username: "", password: "", image: nil)
+            user.notes = notes
+            notesVC.user = user
+            let navVC = UINavigationController(rootViewController: notesVC)
+            self.present(navVC, animated: true, completion: nil)
         }
+        
+//        let user = User(username: usernameTextField.text!, password: passwordTextField.text!, image: nil)
+//        if let users = fileManager.readUserData(), users.contains(user) {
+//            let index = users.lastIndex { (usser) -> Bool in
+//                return usser == user
+//            }
+//            if let index = index {
+//                guard let notesVC = self.storyboard?.instantiateViewController(withIdentifier: "NotesViewController") as? NotesTableViewController else { return }
+//                notesVC.user = users[index]
+//                let navVC = UINavigationController(rootViewController: notesVC)
+//                self.present(navVC, animated: true, completion: nil)
+//            }
+//        } else {
+//            let alertController = UIAlertController(title: "Login failed", message: "Invalid username or password", preferredStyle: .alert)
+//            alertController.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: nil))
+//            self.present(alertController, animated: true, completion: nil)
+//        }
         
     }
 
